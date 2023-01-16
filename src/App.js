@@ -21,7 +21,6 @@ import ProtectedRouteAdmin from "./pages/admin/ProtectedRoute";
 import NotFoundPage from "./pages/user/NotFoundPage";
 import Ticket from "./pages/admin/Ticket/Ticket";
 import NewTicket from "./pages/admin/Ticket/NewTicket";
-import ViewTicket from "./pages/admin/Ticket/ViewTicket";
 import DetailTicket from "./components/User/Ticket/DetailTicket";
 import Identitas from "./components/User/Identitas/Identitas";
 import Transaction from "./pages/admin/Transaction/Transaction";
@@ -30,6 +29,7 @@ import Users from "./pages/admin/User/User";
 import CheckIn from "./pages/user/Checkin";
 import PageVerify from "./pages/user/PageVerify";
 import NewNotification from "./pages/user/NewNotification";
+import PasswordChange from "./pages/user/PasswordChange";
 
 function App() {
   window.onunload = () => {
@@ -41,6 +41,7 @@ function App() {
         <Routes>
           <Route element={<ProtectedRoute />}>
             <Route path="/user/profile" element={<Profile />} />
+            <Route path="/user/password" element={<PasswordChange />} />
             <Route path="/user/wishlist" element={<WishlistPage />} />
             <Route path="/user/notification" element={<NewNotification />} />
             <Route path="/payment" element={<Payment />} />
@@ -65,7 +66,6 @@ function App() {
               <Route path="/admin/order" element={<Order />} />
               <Route path="/admin/ticket" element={<Ticket />} />
               <Route path="/admin/ticket/new" element={<NewTicket />} />
-              <Route path="/admin/ticket/view" element={<ViewTicket />} />
               <Route path="/admin/transaction" element={<Transaction />} />
               <Route path="/admin/users" element={<Users />} />
             </Route>

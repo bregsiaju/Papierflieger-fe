@@ -5,11 +5,9 @@ import {
   Button,
   Container,
   Table,
-  Alert,
   Modal,
   Form,
 } from "react-bootstrap";
-import { MdRemoveRedEye } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import "../Admin.scss";
 import { Link } from "react-router-dom";
@@ -23,10 +21,9 @@ const tipeTicket = [
 ];
 
 const DataTicket = () => {
-  const { loading, data, errorMessage, message, datAirport, airportName, datAirPlane} = useSelector(
+  const { loading, data, datAirport, airportName, datAirPlane } = useSelector(
     (state) => state.ticketReducer
   );
-  const [messages, setMessages] = useState("");
   const [show, setShow] = useState(false);
   const [ticketno, setTicketNumber] = useState("");
   const [depDate, setDepartureDate] = useState();
@@ -44,64 +41,42 @@ const DataTicket = () => {
   const [flightduration, setFlightDuration] = useState("");
   const [arrtimetransit, setArrivalTimeTransit] = useState("");
   const [deptimetransit, setDepartureTimeFromTransit] = useState("");
-  const [eror, setEror] = useState("");
   const [id, setId] = useState("");
- 
+
   const handleSubmit = () => {
     const datas = {
       ticketNumber: ticketno,
       arrivalDate: arrDate,
       departureTime: deptime,
       flightFrom: frcity.value ? frcity.value : frcity,
-      airplaneId: airpname.value ?airpname.value:airpname,
-      transitPoint: PointTransit.value ?  PointTransit.value :PointTransit ? PointTransit : null,
+      airplaneId: airpname.value ? airpname.value : airpname,
+      transitPoint: PointTransit.value ? PointTransit.value : PointTransit ? PointTransit : null,
       arrivalTimeAtTransit: arrtimetransit ? arrtimetransit : null,
       flightDuration: flightduration,
       ticketType: typeTicket.value ? typeTicket.value : typeTicket,
       departureDate: depDate,
       arrivalTime: arrtime,
-      flightTo: tcity.value ? tcity.value: tcity,
+      flightTo: tcity.value ? tcity.value : tcity,
       totalTransit: transittotal ? transittotal : null,
-      transitDuration: tranduration ? tranduration : null ,
+      transitDuration: tranduration ? tranduration : null,
       departureTimeFromTransit: deptimetransit ? deptimetransit : null,
       price
     };
-    
-    console.log(datas);
+
     dispatch(updateTicket(datas, id));
-    setShow(false)
+    setShow(false);
   };
-  // const [edit, setEdit] = useState({});
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTicket());
   }, [dispatch]);
-  useEffect(() => {
-    if (errorMessage) {
-      setEror(errorMessage);
-      window.setTimeout(() => {
-        setMessages("");
-      }, 3000);
-    }
-    if (message) {
-      setMessages(message);
-      window.setTimeout(() => {
-        setMessages("");
-      }, 3000);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
   const handleDelete = (id) => {
     dispatch(deleteTicket(id));
   };
-  console.log(data);
-
-  // update ticket
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleDataEdit = (ticket) => {
-    console.log(ticket)
-    setId(ticket.id)
+    setId(ticket.id);
     setTicketNumber(ticket.ticketNumber);
     setDepartureDate(ticket.departureDate.split("T")[0]);
     setArrivalDate(ticket.arrivalDate.split("T")[0]);
@@ -111,7 +86,6 @@ const DataTicket = () => {
       value: ticket.from.id,
       label: ticket.from.city,
     });
-    // setFlightF()
     setFlightTo({
       value: ticket.to.id,
       label: ticket.to.city,
@@ -121,11 +95,11 @@ const DataTicket = () => {
       label: ticket.Airplane.airplaneName,
     });
     setPrice(ticket.price);
-    setTicketType({ 
-      value: ticket.ticketType, 
-      label: ticket.ticketType 
+    setTicketType({
+      value: ticket.ticketType,
+      label: ticket.ticketType
     });
-    setTotalTransit(ticket.totalTransit); 
+    setTotalTransit(ticket.totalTransit);
     setTransitDuration(ticket.transitDuration);
     setFlightDuration(ticket.flightDuration);
     setArrivalTimeTransit(ticket.arrivalTimeAtTransit);
@@ -143,16 +117,6 @@ const DataTicket = () => {
             Tambahkan Tiket Perjalanan
           </Button>
         </Link>
-        {messages && (
-          <Alert key="primary" variant="primary">
-            <>{message}</>
-          </Alert>
-        )}
-        {eror && (
-          <Alert key="danger" variant="danger">
-            {eror}
-          </Alert>
-        )}
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -181,11 +145,6 @@ const DataTicket = () => {
                   <td>{ticket.to.city}</td>
                   <td>
                     <div className="edit-delete">
-                      <div >
-                        <Button variant="primary" >
-                          <MdRemoveRedEye />
-                        </Button>
-                      </div>
                       <div onClick={() => handleDataEdit(ticket)}>
                         <Button variant="primary" onClick={handleShow}>
                           <FiEdit />
